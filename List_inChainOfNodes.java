@@ -4,6 +4,7 @@
 
 public class List_inChainOfNodes{
     private Node headSentinel;
+    private Node tailSentinel;
 
 
     /**
@@ -11,6 +12,8 @@ public class List_inChainOfNodes{
      */
     public List_inChainOfNodes() {
         headSentinel = new Node( null, null);
+        tailSentinel = new Node( null, headSentinel, null);
+	headSentinel.setNextNode( tailSentinel);
     }
 
     /**
@@ -24,7 +27,7 @@ public class List_inChainOfNodes{
     // recursively-called helper
     private int size( Node startingAt) {
         Node next = startingAt.getNextNode();
-        if( next == null) return 0;
+        if( next == null) return -1; // -1 takes account of tail sentinel
         else return 1+ size( next);
     }
 
@@ -54,7 +57,7 @@ public class List_inChainOfNodes{
           [element0`element1`element2`]
      */
     public String toString() {
-        String stringRep = "tail-first [";
+        String stringRep = size() + " tail-first [";
 
         for( Node node = getNodeBefore( size())
             ; node != headSentinel
@@ -75,7 +78,7 @@ public class List_inChainOfNodes{
             headSentinel.setNextNode( newHead);
         
         // update previous node of formerHead
-        if( formerHead != null) formerHead.setPreviousNode( newHead);
+        formerHead.setPreviousNode( newHead);
         
         return true;
      }
@@ -148,7 +151,7 @@ public class List_inChainOfNodes{
 
         // update the ref to prev node
         newNode.setPreviousNode(beforeNew);
-        if (afterNew != null) afterNew.setPreviousNode(newNode);
+        afterNew.setPreviousNode(newNode);
         return true;
     }
 
@@ -169,7 +172,7 @@ public class List_inChainOfNodes{
         
         //update prev Node references
         before.setNextNode( afterAx);
-        if (afterAx != null) afterAx.setPreviousNode( before);
+        afterAx.setPreviousNode( before);
         
         return saveForReturn;
     }
